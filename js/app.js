@@ -230,11 +230,14 @@ function getFilteredProducts() {
     filtered = filtered.filter(function(p) { return p.category === currentCategory; });
   }
   if (currentSearch) {
-    var q = currentSearch.toLowerCase();
+    var q = currentSearch.toLowerCase().trim();
+    var keywords = q.split(/\s+/);
     filtered = filtered.filter(function(p) {
-      return p.name.toLowerCase().indexOf(q) !== -1 ||
-             p.description.toLowerCase().indexOf(q) !== -1 ||
-             p.category.toLowerCase().indexOf(q) !== -1;
+      var searchable = (p.name + ' ' + p.code + ' ' + p.description + ' ' + p.category + ' ' + p.price).toLowerCase();
+      // All keywords must match
+      return keywords.every(function(kw) {
+        return searchable.indexOf(kw) !== -1;
+      });
     });
   }
   return filtered;
@@ -304,9 +307,10 @@ function goToPage(page) {
 }
 
 // ===== FILTER PRODUCTS =====
-function filterProducts(category) {
+function filterProducts(category, e) {
   document.querySelectorAll('.sidebar-filter').forEach(function(btn) { btn.classList.remove('active'); });
-  if (event && event.target) event.target.classList.add('active');
+  var target = e ? (e.target || e.srcElement) : null;
+  if (target) target.classList.add('active');
   currentCategory = category;
   currentPage = 1;
   renderPaginated();

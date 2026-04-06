@@ -38,7 +38,7 @@
         <aside class="category-sidebar">
           <h3>Categories</h3>
           <ul id="categorySidebar">
-            <li><button class="sidebar-filter active" onclick="filterProducts('All')">All Products</button></li>
+            <li><button class="sidebar-filter active" onclick="filterProducts('All', event)">All Products</button></li>
           </ul>
         </aside>
         <div class="products-main">
@@ -125,7 +125,7 @@
       var sidebar = document.getElementById('categorySidebar');
       CATEGORIES.forEach(function(cat) {
         var li = document.createElement('li');
-        li.innerHTML = '<button class="sidebar-filter" onclick="filterProducts(\'' + cat + '\')">' + cat + '</button>';
+        li.innerHTML = '<button class="sidebar-filter" onclick="filterProducts(\'' + cat + '\', event)">' + cat + '</button>';
         sidebar.appendChild(li);
       });
       // Render first page
